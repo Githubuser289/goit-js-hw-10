@@ -68,6 +68,10 @@
     }
 }
 
+.breed-select {
+    width: 300px;
+} 
+
 .box {
     width: 600px;
 }
