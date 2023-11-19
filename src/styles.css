@@ -68,7 +68,10 @@
     }
 }
 
+.box {
+    width: 600px;
+}
 .ss-main {
     margin: 30px 0 30px 30px;
-    width: 200px
+    width: 200px;
 }
