@@ -11,16 +11,14 @@ pLoader.innerHTML = '';
 pError.innerHTML = '';
 hideElement(pError);
 
-let counter = 0;
 let slimselect = new SlimSelect({
   select: document.querySelector('.breed-select'),
   events: {
     afterChange: newVal => {
-      if (counter === 0) {
-        counter++;
+      catInfoElem.innerHTML = '';
+      if (newVal.length === 0 || newVal[0].text === "Here search Cat's") {
         return;
       }
-      catInfoElem.innerHTML = '';
       displayBreed(newVal[0].value);
     },
   },
@@ -36,7 +34,6 @@ function showElement(element) {
 function displayBreed(breed) {
   fetchCatByBreed(breed)
     .then(data => {
-      // hideElement(pError);
       hideElement(catInfoElem);
       showElement(pLoader);
       const { url, breeds } = data[0];
@@ -52,9 +49,8 @@ function displayBreed(breed) {
 hideElement(selectElem);
 fetchBreeds()
   .then(data => {
-    // hideElement(pError);
     showElement(pLoader);
-    const dataSlimSelect = [];
+    const dataSlimSelect = [{ placeholder: true, text: "Here search Cat's" }];
     data.map(cat => {
       dataSlimSelect.push({ text: cat.name, value: cat.id });
     });
