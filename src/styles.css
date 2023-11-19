@@ -70,12 +70,17 @@
 
 .breed-select {
     width: 300px;
-} 
-
-.box {
-    width: 600px;
 }
+
+.ss-values {
+    width: 200px;
+}
+
 .ss-main {
     margin: 30px 0 30px 30px;
     width: 200px;
+}
+
+.box {
+    width: 600px;
 }
