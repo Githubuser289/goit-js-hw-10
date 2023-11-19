@@ -1,15 +1,5 @@
 import { fetchBreeds, fetchCatByBreed, onFetchError } from './cat-api.js';
 import SlimSelect from 'slim-select';
-import 'slim-select/dist/slimselect.css';
-
-const selectElem = document.querySelector('.breed-select'),
-  pLoader = document.querySelector('.loader'),
-  pError = document.querySelector('.error'),
-  catInfoElem = document.querySelector('.cat-info');
-
-pLoader.innerHTML = '';
-pError.innerHTML = '';
-hideElement(pError);
 
 let counter = 0;
 let slimselect = new SlimSelect({
@@ -20,11 +10,16 @@ let slimselect = new SlimSelect({
         counter++;
         return;
       }
-      catInfoElem.innerHTML = '';
       displayBreed(newVal[0].value);
     },
   },
 });
+hideElement(document.querySelector('.ss-values'));
+
+const selectElem = document.querySelector('.breed-select'),
+  pLoader = document.querySelector('.loader'),
+  pError = document.querySelector('.error'),
+  catInfoElem = document.querySelector('.cat-info');
 
 function hideElement(element) {
   element.style.display = 'none';
@@ -36,9 +31,11 @@ function showElement(element) {
 function displayBreed(breed) {
   fetchCatByBreed(breed)
     .then(data => {
-      // hideElement(pError);
+      hideElement(pError);
       hideElement(catInfoElem);
       showElement(pLoader);
+      hideElement(document.querySelector('body>div'));
+      hideElement(document.querySelector('.ss-content'));
       const { url, breeds } = data[0];
       catInfoElem.innerHTML = `<img src="${url}" alt="${breeds[0].name}" width="400"/><div class="box"><h2>${breeds[0].name}</h2><p>${breeds[0].description}</p><p><strong>Temperament:</strong> ${breeds[0].temperament}</p></div>`;
     })
@@ -49,10 +46,13 @@ function displayBreed(breed) {
     });
 }
 
-hideElement(selectElem);
+hideElement(pError);
+let storedBreeds = [];
+
 fetchBreeds()
   .then(data => {
-    // hideElement(pError);
+    hideElement(pError);
+    hideElement(selectElem);
     showElement(pLoader);
     const dataSlimSelect = [];
     data.map(cat => {
@@ -63,4 +63,5 @@ fetchBreeds()
   .catch(onFetchError)
   .finally(() => {
     hideElement(pLoader);
+    showElement(selectElem);
   });
